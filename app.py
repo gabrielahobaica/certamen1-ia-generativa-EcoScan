@@ -106,19 +106,26 @@ with tab_analizar:
         ejemplos = sorted((CARPETA / "ejemplos").glob("*.jpg"))
         ejemplo = st.selectbox("…o prueba con un ejemplo", ["Ninguno"] + [e.stem for e in ejemplos])
         if archivo:
-            imagen = Image.open(archivo)
+            imagen, foto_id = Image.open(archivo), f"{archivo.name}-{archivo.size}"
         elif ejemplo != "Ninguno":
-            imagen = Image.open(CARPETA / "ejemplos" / f"{ejemplo}.jpg")
+            imagen, foto_id = Image.open(CARPETA / "ejemplos" / f"{ejemplo}.jpg"), ejemplo
         else:
-            imagen = None
+            imagen, foto_id = None, None
+
+        if st.session_state.get("foto_id") != foto_id:      # cambió la foto: borra el resultado anterior
+            st.session_state.foto_id, st.session_state.probs = foto_id, None
+
         if imagen:
             st.image(imagen, width=350)
+            if st.button("🔎 Identificar material", type="primary"):
+                with st.spinner("Analizando la foto…"):
+                    st.session_state.probs = clasificar(imagen)   # se guarda para no perderlo al recargar
 
     with der:
-        if imagen is None:
-            st.subheader("Sube una foto para empezar")
+        probs = st.session_state.get("probs")
+        if probs is None:
+            st.subheader("Sube una foto y pulsa **Identificar material**")
         else:
-            probs = clasificar(imagen)
             clase = max(probs, key=probs.get)
             confianza = probs[clase]
 
@@ -128,6 +135,8 @@ with tab_analizar:
             tabla = pd.DataFrame({"Material": [NOMBRES[c] for c in probs],
                                   "Probabilidad": list(probs.values())}).set_index("Material")
             st.bar_chart(tabla, horizontal=True, color="#1b7d61")
+            st.dataframe(tabla.sort_values("Probabilidad", ascending=False)
+                         .style.format({"Probabilidad": "{:.1%}"}))     # tabla con las 6 probabilidades
 
             contexto = st.text_input("Contexto opcional", placeholder="Ej: botella con restos de bebida")
             if st.button("💬 Generar recomendación con IA", type="primary"):
@@ -145,7 +154,10 @@ with tab_desempeno:
     c3.metric("F1 macro", f"{m['f1_macro']:.3f}")
     st.markdown("**Comparación de enfoques**")
     st.dataframe(pd.DataFrame(m["comparacion"]), hide_index=True)
-    st.image(str(CARPETA / "modelo/matriz_confusion.png"), caption="Matriz de confusión (prueba)", width=600)
+    st.markdown("**Matrices de confusión (prueba)**")
+    matrices = sorted((CARPETA / "modelo").glob("matriz_*.png"))   # una imagen por modelo
+    for col, ruta in zip(st.columns(max(len(matrices), 1)), matrices):
+        col.image(str(ruta), caption=ruta.stem.replace("matriz_", ""))
     st.markdown("**Imágenes por clase y partición**")
     st.dataframe(pd.DataFrame(m["conteos"]).T)
 
