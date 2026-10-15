@@ -1,27 +1,27 @@
 {
   "modelo_elegido": "efficientnet_b0",
   "n_prueba": 379,
-  "accuracy": 0.8786,
-  "accuracy_balanceada": 0.8778,
-  "f1_macro": 0.861,
+  "accuracy": 0.8443,
+  "accuracy_balanceada": 0.8243,
+  "f1_macro": 0.8192,
   "comparacion": [
     {
-      "enfoque": "CLIP sin entrenar",
-      "acc_balanceada_val": 0.6382,
-      "accuracy_prueba": 0.6966,
-      "acc_balanceada_prueba": 0.6393
+      "enfoque": "1 · CLIP (sin entrenar)",
+      "acc_balanceada_val": 0.6304,
+      "acc_balanceada_test": 0.6534,
+      "accuracy_test": 0.7071
     },
     {
       "enfoque": "efficientnet_b0",
-      "acc_balanceada_val": 0.8484,
-      "accuracy_prueba": 0.8786,
-      "acc_balanceada_prueba": 0.8778
+      "acc_balanceada_val": 0.8495,
+      "acc_balanceada_test": 0.8243,
+      "accuracy_test": 0.8443
     },
     {
       "enfoque": "resnet18",
-      "acc_balanceada_val": 0.7985,
-      "accuracy_prueba": 0.7863,
-      "acc_balanceada_prueba": 0.7915
+      "acc_balanceada_val": 0.7559,
+      "acc_balanceada_test": 0.7823,
+      "accuracy_test": 0.7889
     }
   ],
   "conteos": {
