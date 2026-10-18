@@ -5,8 +5,8 @@ Proyecto grupal · IA Generativa para la Gestión Industrial · UDD
 
 **Integrantes:** Alexis, Gabriela y Agustín
 
-- 🌐 App: https://ecoscan-alexis-gabriela-agustin.streamlit.app/
-- 💻 Repositorio: https://github.com/maruxan898/ecoscan
+- 🌐 App: https://ecoscan-certamen1-ia-generativa-grupo15.streamlit.app/
+- 💻 Repositorio: https://github.com/USUARIO/certamen1-ia-generativa-ecoscan  ← reemplazar USUARIO
 
 ## Problema
 
@@ -35,7 +35,15 @@ Comparamos tres enfoques con la misma partición y la misma métrica (accuracy b
 2. **EfficientNet-B0** con transfer learning (timm).
 3. **ResNet18** con transfer learning (timm).
 
-El modelo se elige por validación y se reporta en prueba. Resultados en `modelo/metricas.json` y en la pestaña *Desempeño* de la app.
+El modelo se elige por validación y se reporta en prueba (379 fotos que el modelo nunca vio):
+
+| Enfoque | Accuracy balanceada en prueba |
+|---|---:|
+| CLIP sin entrenar | 63,9 % |
+| ResNet18 | 79,2 % |
+| **EfficientNet-B0 (modelo elegido)** | **87,8 %** |
+
+**Modelo elegido: EfficientNet-B0**, por tener la mejor accuracy balanceada en validación; además es liviano (~16 MB). En prueba obtuvo 87,9 % de accuracy. Detalle en `modelo/metricas.json` y en la pestaña *Desempeño* de la app.
 
 **Error más costoso:** que un residuo no reciclable ("otros residuos") se clasifique como reciclable y contamine una carga.
 
@@ -44,7 +52,7 @@ El modelo se elige por validación y se reporta en prueba. Resultados en `modelo
 ```
 app.py                     app web (Streamlit)
 notebooks/entrenamiento.ipynb   datos, comparación de modelos, métricas y exportación
-modelo/                    modelo.pt, metricas.json, matriz_confusion.png
+modelo/                    modelo.pt, metricas.json y una matriz de confusión por modelo
 ejemplos/                  fotos de prueba para la app
 .streamlit/config.toml     colores de la app
 requirements.txt           librerías
@@ -52,7 +60,9 @@ requirements.txt           librerías
 
 ## Cómo ejecutar
 
-**Entrenar:** abrir el notebook en Colab → GPU T4 → *Ejecutar todo*. Al final se descargan `para_la_app.zip` (carpeta `modelo/`) y `ejemplos.zip`; reemplazarlas en el repositorio.
+**Entrenar:** abrir el notebook en Colab → GPU T4 → *Ejecutar todo*. Al final se descarga `para_la_app.zip`, con las carpetas `modelo/` y `ejemplos/`: reemplazarlas en el repositorio.
+
+**Publicar en Streamlit Community Cloud:** *Create app* → este repositorio, rama `main`, archivo `app.py` → *Advanced settings*: **Python 3.11** y el secreto `GEMINI_API_KEY`. Cada commit actualiza la app sola.
 
 **App local** (Python 3.11):
 ```
@@ -60,7 +70,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-**Clave de Gemini:** se guarda como secreto `GEMINI_API_KEY` en Streamlit Cloud (*Settings → Secrets*) o en `.streamlit/secrets.toml` en local. **Nunca se sube a GitHub.** A Gemini solo se envía texto (clase, confianza y contexto), no la imagen.
+**Clave de Gemini:** se guarda como secreto `GEMINI_API_KEY` en Streamlit Cloud (*Settings → Secrets*) o en `.streamlit/secrets.toml` en local. **Nunca se sube a GitHub.** A Gemini solo se envía texto (material, confianza y la pregunta del usuario), no la imagen.
 
 ## Uso de IA
 
