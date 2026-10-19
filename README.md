@@ -3,10 +3,10 @@
 **Clasificación de residuos con un modelo preentrenado + recomendación con IA generativa.**
 Proyecto grupal · IA Generativa para la Gestión Industrial · UDD
 
-**Integrantes:** Alexis Durán, Gabriela Hobaica y Agustín Vásquez
+**Integrantes:** Alexis, Gabriela y Agustín
 
 - 🌐 App: https://ecoscan-certamen1-ia-generativa-grupo15.streamlit.app/
-- 💻 Repositorio: https://github.com/gabrielahobaica/certamen1-ia-generativa-EcoScan
+- 💻 Repositorio: https://github.com/USUARIO/certamen1-ia-generativa-ecoscan  ← reemplazar USUARIO
 
 ## Problema
 
@@ -39,13 +39,13 @@ El modelo se elige por validación y se reporta en prueba (379 fotos que el mode
 
 | Enfoque | Accuracy balanceada en prueba |
 |---|---:|
-| CLIP sin entrenar | 63,9 % |
-| ResNet18 | 79,2 % |
-| **EfficientNet-B0 (modelo elegido)** | **87,8 %** |
+| CLIP sin entrenar | 65,3 % |
+| ResNet18 | 78,2 % |
+| **EfficientNet-B0 (modelo elegido)** | **82,4 %** |
 
-**Modelo elegido: EfficientNet-B0**, por tener la mejor accuracy balanceada en validación; además es liviano (~16 MB). En prueba obtuvo 87,9 % de accuracy. Detalle en `modelo/metricas.json` y en la pestaña *Desempeño* de la app.
+**Modelo elegido: EfficientNet-B0**, por tener la mejor accuracy balanceada en validación; además es liviano (~16 MB). En prueba obtuvo 84,4 % de accuracy y F1 macro 0,82. Detalle en `modelo/metricas.json` y en la pestaña *Desempeño* de la app.
 
-**Error más costoso:** que un residuo no reciclable ("otros residuos") se clasifique como reciclable y contamine una carga.
+**Error más costoso:** que un residuo no reciclable ("otros residuos") se clasifique como reciclable y contamine una carga. En prueba, de 20 fotos de esa clase el modelo acertó 13 (recall 65 %): es la clase más débil, por eso la app pide revisión humana cuando la confianza es menor a 70 %.
 
 ## Estructura
 
