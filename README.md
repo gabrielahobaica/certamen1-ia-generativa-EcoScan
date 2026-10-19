@@ -6,7 +6,7 @@ Proyecto grupal · IA Generativa para la Gestión Industrial · UDD
 **Integrantes:** Alexis Durán, Gabriela Hobaica y Agustín Vásquez
 
 - 🌐 App: https://ecoscan-certamen1-ia-generativa-grupo15.streamlit.app/
-- 💻 Repositorio: https://github.com/gabrielahobaica/certamen1-ia-generativa-ecoscan
+- 💻 Repositorio: https://github.com/gabrielahobaica/certamen1-ia-generativa-EcoScan
 
 ## Problema
 
